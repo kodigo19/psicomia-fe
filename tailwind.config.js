@@ -24,6 +24,7 @@ module.exports = {
         // => @media (min-width: 1536px) { ... }
       },
       colors: {
+        'brand-gray': '#F3EFE1',
         'brand-purple': {
           400: '#756e89',
           500: '#503a89',
