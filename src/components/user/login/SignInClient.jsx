@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailNotFound, invalidEmail, loadingLogin, minLenPassword, passwordIsIncorrect, setEmailNotFound, setInvalidEmail, setMinLengthPassword, setPasswordIsIncorrect, signInUserAsync } from '../../../redux/slices/auth/signInUserSlice.js';
+import { emailNotFound, invalidEmail, loadingLogin, minLenPassword, passwordIsIncorrect, setEmailNotFound, setInvalidEmail, setMinLengthPassword, setPasswordIsIncorrect, signInUserAsync, user } from '../../../redux/slices/auth/signInUserSlice.js';
 import { Spinner } from '../../shared/Spinner';
 
 const variants = {
@@ -25,6 +25,9 @@ export const SignInClient = () => {
   const navigate = useNavigate();
 
   const tokenLocalStorage = localStorage.getItem('token');
+
+  const authUser = useSelector(user);
+  console.log("user from state", authUser);
 
   const [isShowing, setIsShowing] = useState(true);
   const [notEmail, setNotEmail] = useState(false);
@@ -50,7 +53,11 @@ export const SignInClient = () => {
         password: passwordRef.current.value,
         role: 2
       }
-      dispatch(signInUserAsync(client));
+      dispatch(signInUserAsync(client))
+        .then((response) => {
+          console.log('response----!');
+          console.log(response);
+        });
     } else {
       setNotEmail(true);
     }

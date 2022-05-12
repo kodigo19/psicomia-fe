@@ -10,11 +10,18 @@ export const signInUser = async (user) => {
     .then((userCredential) => {
       // Signed in
       const signedInUser = userCredential.user;
+      console.log('user---- signInWithEmailAndPassword');
+      console.log(userCredential);
       // ..
-      return {success: true, signedInUser}
+      const data = {...signedInUser, success: true};
+      console.log('data---');
+      console.log(data);
+      return data;
     })
     .catch((error) => {
       const errorCode = error.code;
+      console.log('error in siginwithemailandpassword')
+      console.log(error);
       const errorMessage = error.message;
       const errorData = {
         code: errorCode,

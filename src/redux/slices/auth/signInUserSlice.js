@@ -22,12 +22,26 @@ export const signInUserSlice = createSlice({
     },
     setInvalidEmail: (state, action) => {
       state.invalidEmail = action.payload;
+    },
+    setSuccess: (state, action) => {
+      state.success = action.payload;
+    },
+    setType: (state, action) => {
+      state.type = action.payload;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signInUserAsync.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(signInUserAsync.fulfilled, (state,action) => {
-        state.loading = false;
+        console.log('fullfilled!!');
+        console.log(action);
+        state.loading = false;  
         if (action.payload.success) {
           state.user = action.payload;
           localStorage.setItem('token', action.payload.idToken);
@@ -51,11 +65,12 @@ export const signInUserSlice = createSlice({
   }
 });
 
-export const { setPasswordIsIncorrect, setEmailNotFound, setMinLengthPassword, setInvalidEmail } = signInUserSlice.actions;
+export const { setPasswordIsIncorrect, setEmailNotFound, setMinLengthPassword, setInvalidEmail, setUser } = signInUserSlice.actions;
 export const loadingLogin = (state) => state.signInUser.loading;
 export const passwordIsIncorrect = (state) => state.signInUser.passwordIncorrect;
 export const emailNotFound = (state) => state.signInUser.emailNotFound;
 export const minLenPassword = (state) => state.signInUser.minLengthPassword;
 export const invalidEmail = (state) => state.signInUser.invalidEmail;
+export const user = (state) => state.signInUser.user;
 
 export default signInUserSlice.reducer;
