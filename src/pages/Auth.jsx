@@ -8,7 +8,7 @@ export const Auth = () => {
 
   useEffect(() => {
     if (location.pathname === "/signin") {
-      navigate("/signin/cliente");
+      navigate("/signin/client");
     } else if (location.pathname === "/signup") {
       navigate("/signup/cliente");
     }

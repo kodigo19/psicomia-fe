@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailNotFound, invalidEmail, loadingLogin, minLenPassword, passwordIsIncorrect, setEmailNotFound, setInvalidEmail, setMinLengthPassword, setPasswordIsIncorrect, signInUserAsync, user } from '../../../redux/slices/auth/signInUserSlice.js';
+import { loginUser, loginUserAsync, selectUser } from '../../../redux/slices/auth/userSlice.js';
 import { Spinner } from '../../shared/Spinner';
 
 const variants = {
@@ -20,73 +20,94 @@ const variants = {
   }
 }
 
-export const SignInClient = () => {
+export const LoginUser = () => {
 
   const navigate = useNavigate();
 
-  const tokenLocalStorage = localStorage.getItem('token');
+  const dispatch = useDispatch();
 
-  const authUser = useSelector(user);
-  console.log("user from state", authUser);
-
-  const [isShowing, setIsShowing] = useState(true);
-  const [notEmail, setNotEmail] = useState(false);
-  const [userNotFound, setUserNotFound] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
-  const [errorMinLenPassword, setErrorMinLenPassword] = useState(false);
-  const [errorInvalidEmail, setErrorInvalidEmail] = useState(false);
+  const [notEmail, setNotEmail] = useState(false);
+  const [notPassword, setNotPassword] = useState(false);
+  const [isShowing, setIsShowing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const dispatch = useDispatch();
-  const loading = useSelector(loadingLogin) ?? false;
-  const passwordIncorrect = useSelector(passwordIsIncorrect) ?? false;
-  const emailNFound = useSelector(emailNotFound) ?? false;
-  const minLengthPassword = useSelector(minLenPassword) ?? false;
-  const invEmail = useSelector(invalidEmail) ?? false;
+  const user = useSelector(state => state.signInUser.user);
 
   const handleSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (emailRef.current.value !== "") {
-      const client = {
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-        role: 2
+      if (passwordRef.current.value !== "") {
+        const client = {
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+          role: 2
+        }
+        console.log('IsLoading ', isLoading);
+        console.log('NotEmaiil ', notEmail);
+        console.log('NotPassword ',notPassword);
+        dispatch(loginUserAsync(client))
+          .then((response) => {
+            console.log('response----!');
+            console.log(response);
+            setIsLoading(false);
+            console.log('user--- logged in!');
+            console.log(user);
+            dispatch(
+              loginUser({
+                email: response.email,
+                uid: response.uid,
+                displayName: response.displayName,
+                photoURL: response.photoURL,
+              })
+            )
+            console.log('REDIRECT');
+            navigate('/client/dashboard');
+          }).catch((error) => {
+            console.log('error---');
+            console.log(error);
+            setIsLoading(false);
+            setErrorPassword(true);
+          });
+      } else {
+        setIsLoading(false);
+        setNotPassword(true);
       }
-      dispatch(signInUserAsync(client))
-        .then((response) => {
-          console.log('response----!');
-          console.log(response);
-        });
     } else {
+      setIsLoading(false);
       setNotEmail(true);
     }
   }
 
-  const handleError = () => {
-    dispatch(setPasswordIsIncorrect(false));
-    dispatch(setEmailNotFound(false));
-    dispatch(setMinLengthPassword(false));
-    dispatch(setInvalidEmail(false));
+  const cleanError = () => {
+    setErrorPassword(false);
   }
 
   const handleChange = () => {
+    console.log('handle change')
+    setIsLoading(false);
     setNotEmail(false);
-    setUserNotFound(false);
-    setErrorPassword(false);
-    setErrorMinLenPassword(false);
-    setErrorInvalidEmail(false);
-    handleError();
+    setNotPassword(false);
+    console.log('IsLoading ', isLoading);
+    console.log('NotEmaiil ', notEmail);
+    console.log('NotPassword ',notPassword);
+    cleanError();
   }
 
   useEffect(() => {
-    if (tokenLocalStorage) navigate('/cliente/inicio');
-    if (passwordIncorrect) setErrorPassword(true);
-    if (emailNFound) setUserNotFound(true);
-    if (minLengthPassword) setErrorMinLenPassword(true);
-    if (invEmail) setErrorInvalidEmail(true);
+    console.log('useffect');
+    if (user) {
+      console.log('user is logged in--- inside useeffect')
+      navigate('/client/dashboard');
+    } else {
+      console.log('user is NOT logged in')
+    }
     // eslint-disable-next-line
-  }, [tokenLocalStorage, passwordIncorrect, emailNFound, minLengthPassword, invEmail]);
+  }, [user]);
 
   return (
     <form onSubmit={handleSubmit} className="px-4">
@@ -98,7 +119,7 @@ export const SignInClient = () => {
         </div>
       </div>
       <motion.div
-        animate={notEmail | userNotFound | errorPassword | errorMinLenPassword | errorInvalidEmail ? 'true' : 'false'}
+        animate={notEmail | notPassword | errorPassword ? 'true' : 'false'}
         variants={variants}
         className="my-4 space-y-3"
       >
@@ -112,6 +133,7 @@ export const SignInClient = () => {
               name="email"
               id="email"
               ref={emailRef}
+              required
               onChange={handleChange}
               className="block w-full py-2 pl-10 pr-3 text-sm text-gray-600 peer border rounded-md md:font-medium focus:ring-2 invalid:border-red-600 invalid:text-red-600 invalid:focus:ring-red-100 focus:ring-brand-green-500/50 focus:border-transparent focus:outline-none border-slate-300"
             />
@@ -122,13 +144,7 @@ export const SignInClient = () => {
             </div>
           </div>
           {
-            errorInvalidEmail ? <p className="mt-1 text-sm font-medium text-red-500">Correo inválido.</p> : <></>
-          }
-          {
             notEmail ? <p className="mt-1 text-sm font-medium text-red-500">Ingresar un correo.</p> : <></>
-          }
-          {
-            userNotFound ? <p className="mt-1 text-sm font-medium text-red-500">Correo no registrado.</p> : <></>
           }
         </div>
         <div>
@@ -171,10 +187,10 @@ export const SignInClient = () => {
             </button>
           </div>
           {
-            errorMinLenPassword ? <p className="mt-1 text-sm font-medium text-red-500">Ingresa por lo menos 8 caracteres.</p> : <></>
+            notPassword ? <p className="mt-1 text-sm font-medium text-red-500">Ingresa una contraseña</p> : <></>
           }
           {
-            errorPassword ? <p className="mt-1 text-sm font-medium text-red-500">Contraseña incorrecta.</p> : <></>
+            errorPassword ? <p className="mt-1 text-sm font-medium text-red-500">Usuario o Contraseña incorrecta.</p> : <></>
           }
         </div>
       </motion.div>
@@ -182,15 +198,15 @@ export const SignInClient = () => {
         <Link to='/recovery' className="my-4 text-sm text-center underline decoration-transparent hover:decoration-current underline-offset-2">Olvidé mi contraseña</Link>
       </div>
       <motion.button
-        type={loading ? "button" : "submit"}
+        type={isLoading ? "button" : "submit"}
         whileHover={{ scale: 1.03 }}
         className="w-full px-4 py-2 text-sm font-medium tracking-wide text-white border border-transparent rounded-md bg-brand-green-500 focus:outline-none"
       >
-        {loading ? <Spinner/> : 'Iniciar sesión'}
+        {isLoading ? <Spinner/> : 'Iniciar sesión'}
       </motion.button>
       <div className="flex flex-col sm:flex-row py-2.5 text-[0.85rem] items-center justify-center space-x-1">
         <p>¿No tienes una cuenta?</p>
-        <p>Regístrate <Link to="/signup/cliente" onClick={() => handleError()} className="font-bold text-brand-green-500">aquí</Link></p>
+        <p>Regístrate <Link to="/signup/client" onClick={() => cleanError()} className="font-bold text-brand-green-500">aquí</Link></p>
       </div>
     </form>
   )

@@ -1,7 +1,13 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import { Navbar } from '../components/landing/Navbar'
 
 export const DashboardClient = () => {
   return (
-    <div>DashboardClient</div>
+    <>
+    <Navbar/>
+    <Outlet/>
+    <div>Dashboard CLient</div>
+    </>
   )
 }

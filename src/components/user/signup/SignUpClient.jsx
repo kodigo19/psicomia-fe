@@ -209,7 +209,7 @@ export const SignUpClient = () => {
       </motion.button>
       <div className="flex py-2.5 text-[0.85rem] items-center justify-center space-x-1">
         <p>¿Ya estás registrado?</p>
-        <p>Inicia sesión <Link to="/signin/cliente" className="font-bold text-brand-green-500">aquí</Link></p>
+        <p>Inicia sesión <Link to="/signin/client" className="font-bold text-brand-green-500">aquí</Link></p>
       </div>
     </form>
   )

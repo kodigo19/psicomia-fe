@@ -1,22 +1,31 @@
 import axiosInstance from '../../../config/httpService';
 import { ENDPOINTS, URI_SERVER } from '../../endpoints';
-import {firebaseApp} from '../../../config/firebase-config';
+import {auth, firebaseApp} from '../../../config/firebase-config';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { loginUserApiService } from './loginUserApiService';
 
-export const signInUser = async (user) => {
-  const authentication = getAuth();
+export const loginUserFirebaseService = (user) => {
   const {email, password} = user
-  signInWithEmailAndPassword(authentication, email, password)
+  signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const signedInUser = userCredential.user;
       console.log('user---- signInWithEmailAndPassword');
       console.log(userCredential);
       // ..
-      const data = {...signedInUser, success: true};
-      console.log('data---');
-      console.log(data);
-      return data;
+
+      const getUserProfile = loginUserApiService(userCredential.user.uid, userCredential._tokenResponse.idToken);
+
+      if (!getUserProfile) {
+        return { success: false }
+      } else {
+        const data = {...signedInUser, success: true};
+        localStorage.setItem('token', userCredential._tokenResponse.idToken);
+        localStorage.setItem('refreshToken', userCredential._tokenResponse.refreshToken);
+        console.log('data---');
+        console.log(data);
+        return {data: data, success: true};
+      }
     })
     .catch((error) => {
       const errorCode = error.code;

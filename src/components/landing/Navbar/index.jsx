@@ -1,13 +1,19 @@
 import { AnimatePresence, motion, useCycle } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Link as LinkReactScroll } from 'react-scroll';
+import { logoutUser, selectUser } from "../../../redux/slices/auth/userSlice";
+import { auth } from "../../../utils/config/firebase-config";
 import { MenuBurger } from "./MenuBurger";
 
 export const Navbar = () => {
 
   const [isOpen, toggleOpen] = useCycle(false, true);
   const [showBorder, setShowBorder] = useState(false);
+
+  const user = useSelector(state => state.signInUser.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -24,7 +30,19 @@ export const Navbar = () => {
       top: 0,
       behavior: 'smooth'
     });
-  }
+  };
+
+  const logOutUser = () => {
+    console.log('click in logOutUser');
+    auth.signOut().then(() => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      console.log(localStorage.getItem('token'));
+      dispatch(logoutUser());
+      console.log('user after');
+      console.log(selectUser);
+    });
+  };
 
   return (
     <>
@@ -52,24 +70,29 @@ export const Navbar = () => {
           <div className="hidden md:block">
             <ul className="top-0 left-0 z-0 flex flex-row items-center justify-center w-full h-full space-x-10 text-base font-semibold dark:font-medium">
               <li>
-                <LinkReactScroll to="services" smooth={true} duration={500} className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
+                <Link to="/services" className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
                   Servicios
-                </LinkReactScroll>
+                </Link>
               </li>
               <li>
-                <LinkReactScroll to="prices" smooth={true} duration={500} className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
+                <Link to="/pricing" className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
                   Precios
-                </LinkReactScroll>
+                </Link>
               </li>
               <li>
-                <LinkReactScroll to="faqs" smooth={true} duration={500} className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
+                <Link to="/faqs" className="font-medium leading-6 tracking-normal text-gray-600 transition duration-150 ease-out cursor-pointer focus:outline-none hover:text-gray-900">
                   Preguntas Frecuentes
-                </LinkReactScroll>
+                </Link>
               </li>
             </ul>
           </div>
-          <div className="flex flex-row items-center space-x-2 sm:space-x-3">
-            <Link to="/signin/cliente" className={`inline-flex items-center justify-center w-20 sm:w-32 py-2 text-sm sm:text-base font-medium text-white bg-brand-brown-500 hover:bg-brand-brown-700 rounded-md focus:outline-none ${showBorder ? 'shadow-none' : 'shadow-md shadow-brand-brown-500/50'}`}>
+          { user && <div className="flex flex-row items-center space-x-2 sm:space-x-3">
+            <button onClick={logOutUser} className={`inline-flex items-center justify-center w-20 sm:w-32 py-2 text-sm sm:text-base font-medium text-white bg-brand-brown-500 hover:bg-brand-brown-700 rounded-md focus:outline-none ${showBorder ? 'shadow-none' : 'shadow-md shadow-brand-brown-500/50'}`}>
+              Cerrar Sesión
+            </button>
+          </div>}
+          { !user && <div className="flex flex-row items-center space-x-2 sm:space-x-3">
+            <Link to="/signin/client" className={`inline-flex items-center justify-center w-20 sm:w-32 py-2 text-sm sm:text-base font-medium text-white bg-brand-brown-500 hover:bg-brand-brown-700 rounded-md focus:outline-none ${showBorder ? 'shadow-none' : 'shadow-md shadow-brand-brown-500/50'}`}>
               Inicia Sesión
             </Link>
             <span className="inline-flex">
@@ -77,7 +100,7 @@ export const Navbar = () => {
                 Registrarme
               </Link>
             </span>
-          </div>
+          </div>}
         </div>
         <AnimatePresence>
           <motion.div
@@ -92,33 +115,27 @@ export const Navbar = () => {
             className="absolute w-full font-medium text-gray-800 border-b border-gray-300 shadow-md bg-brand-gray md:hidden shadow-brand-gray/50"
           >
             <div className="px-2.5 sm:px-4 py-3 space-y-1.5">
-              <LinkReactScroll
+              <Link
                 onClick={() => toggleOpen()}
-                to="services"
-                smooth={true}
-                duration={500}
+                to="/services"
                 className="block cursor-pointer rounded-xl focus:bg-gray-300 dark:focus:bg-slate-900 tracking-wide px-3 py-1.5"
               >
                   Servicios
-              </LinkReactScroll>
-              <LinkReactScroll
+              </Link>
+              <Link
                 onClick={() => toggleOpen()}
-                to="prices"
-                smooth={true}
-                duration={500}
+                to="/pricing"
                 className="block cursor-pointer rounded-xl focus:bg-gray-300 dark:focus:bg-slate-900 tracking-wide px-3 py-1.5"
               >
                 Precios
-              </LinkReactScroll>
-              <LinkReactScroll
+              </Link>
+              <Link
                 onClick={() => toggleOpen()}
-                to="faqs"
-                smooth={true}
-                duration={500}
+                to="/faqs"
                 className="block cursor-pointer rounded-xl focus:bg-gray-300 dark:focus:bg-slate-900 tracking-wide px-3 py-1.5"
               >
                 Preguntas Frecuentes
-              </LinkReactScroll>
+              </Link>
             </div>
           </motion.div>
         </AnimatePresence>
