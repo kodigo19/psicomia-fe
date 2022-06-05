@@ -3,21 +3,40 @@ import { Navigate } from "react-router-dom";
 import { selectUser } from "../redux/slices/auth/userSlice";
 
 export const PrivateRouteClient = ({ children }) => {
-  const authUser = useSelector(state => state.signInUser.user);
-  console.log('authUser--->');
-  console.log(authUser);
+  console.log('inside private route Client');
+  const authUser = useSelector(selectUser);
+  console.log('authUser--->', authUser);
 
-  console.log('inside private route');
+  if (!authUser) {
+    console.log('not authUser')
+    return <Navigate to='/login/user'/>
+  };
 
-  // if (!authUser) {
-  //   console.log('not authUser')
-  //   return <Navigate to='/signin/client'/>
-  // };
+  // TODO redirect/navigate to dashboard depending on role Client or Psychologist
 
-  console.log('Going to route');
+  // console.log('Going to route');
 
-  // const { role } = decodeToken(token);
-  // const role = 2;
+  const role = authUser.user_id.role;
 
-  // return role === 2 ? children : <Navigate to='/client/dashboard'/>;
+  return role === 2 ? children : <Navigate to='/psychologist/dashboard'/>;
+}
+
+
+export const PrivateRoutePsychologist = ({ children }) => {
+  console.log('inside private route Psychologist');
+  const authUser = useSelector(selectUser);
+  console.log('authUser--->', authUser);
+
+  if (!authUser) {
+    console.log('not authUser')
+    return <Navigate to='/login/user'/>
+  };
+
+  // TODO redirect/navigate to dashboard depending on role Client or Psychologist
+
+  // console.log('Going to route');
+
+  const role = authUser.user_id.role;
+
+  return role === 3 ? children : <Navigate to='/client/dashboard'/>;
 }

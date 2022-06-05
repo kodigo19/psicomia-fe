@@ -30,6 +30,7 @@ export const savePaymentResponse = async (paymentResponse) => {
       },
     });
     const data = await response.json();
+    console.log('savePaymentResponse executed!!!');
     return data.status;
   } catch (error) {
     console.log(error);

@@ -1,30 +1,25 @@
 import axiosInstance from '../../../config/httpService';
 import { ENDPOINTS, URI_SERVER } from '../../endpoints';
 import {auth, firebaseApp} from '../../../config/firebase-config';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { loginUserApiService } from './loginUserApiService';
 
-export const loginUserFirebaseService = async (user) => {
+export const recoveryPasswordFirebaseService = async (email) => {
   console.log('Paso 3');
-  console.log('start loginUserFirebaseService');
-  const {email, password} = user;
-  console.log('user in loginUserFirebaseService', user);
+  console.log('start recoveryPasswordFirebaseService');
+  console.log('email in recoveryPasswordFirebaseService', email);
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password)  
+    const userCredential = await sendPasswordResetEmail(auth, email)  
     console.log('Paso 4');
       // Signed in
       console.log('userCredential', userCredential);
       // ..
       return {
         data: {
-          user: {
-            email: userCredential.user.email,
-            displayName: userCredential.user.displayName,
-            phoneNumber: userCredential.user.phoneNumber,
-            uid: userCredential.user.uid
-          },
-        _tokenResponse: userCredential._tokenResponse
-      }, success:true
+          message: 'Email enviado',
+          email: email
+        },
+        success:true
       };
   } catch (error) {
     const errorCode = await error.code;

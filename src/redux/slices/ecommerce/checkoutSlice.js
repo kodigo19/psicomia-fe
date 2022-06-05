@@ -11,6 +11,7 @@ export const createPreferenceAsync = createAsyncThunk("createPreference", async 
 });
 
 export const savePaymentResponseAsync = createAsyncThunk("savePaymentResponse", async (paymentResponse) => {
+  console.log('inside savePaymentResponseAsync');
   return await savePaymentResponse(paymentResponse);
 });
 
@@ -29,7 +30,7 @@ export const checkoutSlice = createSlice({
         state.preferenceData = action.payload.preference;
       })
       .addCase(savePaymentResponseAsync.fulfilled, (state, action) => {
-        state.savedStatus = action.payload;
+        state.savedPaymentStatus = action.payload;
       })
   }
 });
@@ -40,6 +41,6 @@ export const { setSuccessPaymentResponse } = checkoutSlice.actions;
 export const selectPaymentStatus = (state) => state.checkout.paymentStatus;
 export const selectPreferenceId = (state) => state.checkout.preferenceId;
 export const selectPreferenceData = (state) => state.checkout.preferenceData;
-export const selectSavedStatus = (state) => state.checkout.savedStatus;
+export const selectSavedPaymentStatus = (state) => state.checkout.savedPaymentStatus;
 
 export default checkoutSlice.reducer;

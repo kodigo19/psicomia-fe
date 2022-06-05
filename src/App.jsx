@@ -5,27 +5,29 @@ import { AppRouter } from "./routes/AppRouter";
 import { auth, onAuthStateChanged } from "./utils/config/firebase-config";
 
 function App() {
-  const user = useSelector(state => state.signInUser.user);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   // check at page load if a user is authenticated
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (userAuth) => {
-      if (userAuth) {
-        dispatch(
-          loginUser({
-            email: userAuth.email,
-            uid: userAuth.uid,
-            displayName: userAuth.displayName,
-            photoUrl: userAuth.photoURL,
-          })
-        );
-      } else {
-        dispatch(logoutUser());
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       console.log('onAuthStateChanged');
+  //       // dispatch(
+  //       //   loginUser({
+  //       //     email: user.email,
+  //       //     uid: user.uid,
+  //       //     displayName: user.displayName,
+  //       //     photoUrl: user.photoURL,
+  //       //   })
+  //       // );
+  //     } else {
+  //       localStorage.clear();
+  //       dispatch(logoutUser());
+  //     }
+  //   });
+  // }, [dispatch]);
   return (
     <div className="">
       <div className="min-h-screen font-inter">

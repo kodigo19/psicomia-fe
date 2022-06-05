@@ -6,15 +6,16 @@ import { Navbar } from '../components/landing/Navbar'
 import { selectUser } from '../redux/slices/auth/userSlice'
 import { getClientProfileServiceById } from '../utils/api/services/user/getClientProfileService'
 
-export const DashboardClient = () => {
+export const DashboardPsychologist = () => {
 
-  const [appCredits, setAppCredits] = useState([])
+  // const [appCredits, setAppCredits] = useState([])
+  const appAppointments = []
 
   const user = useSelector(selectUser);
 
-  useEffect(() => {
-    setAppCredits(user.current_appointments);
-  },[user])
+  // useEffect(() => {
+  //   setAppCredits(user.current_appointments);
+  // },[user])
 
   return (
     <>
@@ -24,7 +25,7 @@ export const DashboardClient = () => {
     className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4'
     >
     <div className="">
-      <h1 className="text-xl font-semibold">Mis Paquetes Activos</h1>
+      <h1 className="text-xl font-semibold">Mis Citas Agendadas</h1>
     </div>
     <div
       className='mt-6'
@@ -34,7 +35,7 @@ export const DashboardClient = () => {
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               {
-                appCredits.length === 0 ? <div>Aún no cuentas con paquetes activos</div> :(
+                appAppointments.length === 0 ? <div>Aún no cuentas con citas agendadas</div> :(
                   <table className='min-w-full divide-y divide-gray-200'>
                     <thead
                     className="bg-gray-50"
@@ -62,7 +63,7 @@ export const DashboardClient = () => {
                       className='bg-white divide-y divide-gray-200'
                     >
                     {
-                      appCredits.map((item, index) => (
+                      appAppointments.map((item, index) => (
                         <DashboardTableComponent key={index} item={item}/>
                       ))
                     }

@@ -7,10 +7,10 @@ export const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/signin") {
-      navigate("/signin/client");
+    if (location.pathname === "/login") {
+      navigate("/login/user");
     } else if (location.pathname === "/signup") {
-      navigate("/signup/cliente");
+      navigate("/signup/client");
     }
   }, [location.pathname, navigate]);
 

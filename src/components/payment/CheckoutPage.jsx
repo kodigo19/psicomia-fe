@@ -12,7 +12,7 @@ export const CheckoutPage = () => {
   const preference_data = useSelector(selectPreferenceData) ?? false;
 
   const divButtonRef = useRef();
-
+  
   useEffect(() => {
     console.log('preference_id');
     console.log(preference_id);

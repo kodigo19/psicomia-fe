@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser, loginUserAsync, selectUser } from '../../../redux/slices/auth/userSlice.js';
+import { cleanErrorData, loginUser, loginUserAsync, selectErrorData, selectIsLoading, selectIsSuccess, selectUser, setIsLoading } from '../../../redux/slices/auth/userSlice.js';
 import { Spinner } from '../../shared/Spinner';
 
 const variants = {
@@ -30,66 +30,53 @@ export const LoginUser = () => {
   const [notEmail, setNotEmail] = useState(false);
   const [notPassword, setNotPassword] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const user = useSelector(state => state.signInUser.user);
+  const user = useSelector(selectUser);
+  const isLoading = useSelector(selectIsLoading)
+  
+  const errorData = useSelector(selectErrorData) ?? {};
+  const isSuccess = useSelector(selectIsSuccess) ?? false;
 
   const handleSubmit = (e) => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     e.preventDefault();
     if (emailRef.current.value !== "") {
       if (passwordRef.current.value !== "") {
         const client = {
           email: emailRef.current.value,
           password: passwordRef.current.value,
-          role: 2
         }
         console.log('IsLoading ', isLoading);
         console.log('NotEmaiil ', notEmail);
         console.log('NotPassword ',notPassword);
+        console.log('Paso 0');
+
         dispatch(loginUserAsync(client))
-          .then((response) => {
-            console.log('response----!');
-            console.log(response);
-            setIsLoading(false);
-            console.log('user--- logged in!');
-            console.log(user);
-            dispatch(
-              loginUser({
-                email: response.email,
-                uid: response.uid,
-                displayName: response.displayName,
-                photoURL: response.photoURL,
-              })
-            )
-            console.log('REDIRECT');
-            navigate('/client/dashboard');
-          }).catch((error) => {
-            console.log('error---');
-            console.log(error);
-            setIsLoading(false);
-            setErrorPassword(true);
-          });
+
       } else {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatch(setIsLoading(false));
         setNotPassword(true);
       }
     } else {
-      setIsLoading(false);
+      // setIsLoading(false);
+      dispatch(setIsLoading(false));
       setNotEmail(true);
     }
   }
 
   const cleanError = () => {
     setErrorPassword(false);
+    dispatch(cleanErrorData({}));
   }
 
   const handleChange = () => {
     console.log('handle change')
-    setIsLoading(false);
+    dispatch(setIsLoading(false));
     setNotEmail(false);
     setNotPassword(false);
     console.log('IsLoading ', isLoading);
@@ -100,14 +87,19 @@ export const LoginUser = () => {
 
   useEffect(() => {
     console.log('useffect');
-    if (user) {
+    console.log('selectIsLoading', isLoading);
+    if (user && !isLoading) {
       console.log('user is logged in--- inside useeffect')
-      navigate('/client/dashboard');
+      if (user.user_id.role === 2) {
+        navigate('/client/dashboard');
+      } else if (user.user_id.role === 3){
+        navigate('/psychologist/dashboard');
+      }
     } else {
       console.log('user is NOT logged in')
     }
     // eslint-disable-next-line
-  }, [user]);
+  }, [user && isLoading]);
 
   return (
     <form onSubmit={handleSubmit} className="px-4">
@@ -192,10 +184,13 @@ export const LoginUser = () => {
           {
             errorPassword ? <p className="mt-1 text-sm font-medium text-red-500">Usuario o Contraseña incorrecta.</p> : <></>
           }
+          {
+            !isSuccess && !isLoading ? <p className="mt-1 text-sm font-medium text-red-500">{errorData.message}</p> : <></>
+          }
         </div>
       </motion.div>
       <div className="flex justify-center w-full">
-        <Link to='/recovery' className="my-4 text-sm text-center underline decoration-transparent hover:decoration-current underline-offset-2">Olvidé mi contraseña</Link>
+        <Link to='/login/recovery' className="my-4 text-sm text-center underline decoration-transparent hover:decoration-current underline-offset-2">Olvidé mi contraseña</Link>
       </div>
       <motion.button
         type={isLoading ? "button" : "submit"}
