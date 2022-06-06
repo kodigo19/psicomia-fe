@@ -1,4 +1,7 @@
 export const handleError = (error) => {
+  if (error === undefined | error === null | error === '' | error === {}) {
+    return {message: 'Ocurrió un error. Estamos trabajando para solucionarlo', code: '500'};
+  }
   if (!error.hasOwnProperty('code')) {
     return {message: 'Ocurrió un error. Estamos trabajando para solucionarlo', code: '500'};
   }
