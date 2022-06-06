@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, EyeIcon, EyeOffIcon, FingerPrintIcon, IdentificationIcon, LockClosedIcon, MailIcon, MenuAlt1Icon, OfficeBuildingIcon, SelectorIcon } from "@heroicons/react/outline";
+import { CheckIcon, EyeIcon, EyeOffIcon, IdentificationIcon, LockClosedIcon, MailIcon, SelectorIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { FaRegBuilding } from "react-icons/fa";

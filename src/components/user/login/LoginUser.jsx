@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { cleanErrorData, loginUser, loginUserAsync, selectErrorData, selectIsLoading, selectIsSuccess, selectUser, setIsLoading } from '../../../redux/slices/auth/userSlice.js';
+import { cleanErrorData, loginUserAsync, selectErrorData, selectIsLoading, selectIsSuccess, selectUser, setIsLoading } from '../../../redux/slices/auth/userSlice.js';
 import { Spinner } from '../../shared/Spinner';
 
 const variants = {

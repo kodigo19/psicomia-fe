@@ -1,8 +1,5 @@
-import axiosInstance from '../../../config/httpService';
-import { ENDPOINTS, URI_SERVER } from '../../endpoints';
-import {auth, firebaseApp} from '../../../config/firebase-config';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
-import { loginUserApiService } from './loginUserApiService';
+import {auth, } from '../../../config/firebase-config';
+import { sendPasswordResetEmail } from 'firebase/auth'
 
 export const recoveryPasswordFirebaseService = async (email) => {
   try {

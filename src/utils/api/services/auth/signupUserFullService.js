@@ -1,5 +1,4 @@
 import { signupClientApiService, signupPsychologistApiService } from "./signupUserApiService";
-import { signupUserFirebaseService } from "./signupUserFirebaseService";
 import { loginUserFirebaseService } from "./loginUserFirebaseService"
 
 export const signupClientFullService = async(client) => {

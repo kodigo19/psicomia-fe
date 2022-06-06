@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUserFirebaseService } from "../../../utils/api/services/auth/loginUserFirebaseService";
 import { loginUserFullService } from "../../../utils/api/services/auth/loginUserFullService";
 import { recoveryPasswordFirebaseService } from "../../../utils/api/services/auth/recoveryPasswordFirebaseService";
 import { signupClientFullService, signupPsychologistFullService } from "../../../utils/api/services/auth/signupUserFullService";

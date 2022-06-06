@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useMercadopago } from 'react-sdk-mercadopago/lib';
-import { createPreferenceAsync, selectPreferenceId } from '../../redux/slices/ecommerce/checkoutSlice';
+import { createPreferenceAsync } from '../../redux/slices/ecommerce/checkoutSlice';
 import { Spinner } from './Spinner';
 
 export const PricingCard = ({type, title,description, strPrice, productCode}) => {

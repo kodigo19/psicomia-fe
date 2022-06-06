@@ -1,10 +1,10 @@
-import { EyeIcon, EyeOffIcon, LockClosedIcon, MailIcon } from '@heroicons/react/outline';
+import { MailIcon } from '@heroicons/react/outline';
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { cleanErrorData, loginUser, loginUserAsync, recoveryPasswordAsync, selectErrorData, selectIsLoading, selectIsSuccess, selectUser, setIsLoading } from '../../../redux/slices/auth/userSlice.js';
+import { Link, } from 'react-router-dom';
+import { cleanErrorData, recoveryPasswordAsync, selectErrorData, selectIsLoading, selectIsSuccess, selectUser, setIsLoading } from '../../../redux/slices/auth/userSlice.js';
 import { Spinner } from '../../shared/Spinner';
 
 const variants = {
@@ -22,12 +22,9 @@ const variants = {
 
 export const RecoveryPassword = () => {
 
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const [notEmail, setNotEmail] = useState(false);
-  const [isShowing, setIsShowing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
 

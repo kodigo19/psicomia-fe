@@ -2,8 +2,7 @@ import { AnimatePresence, motion, useCycle } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Link as LinkReactScroll } from 'react-scroll';
-import { logoutUser, selectUser } from "../../../redux/slices/auth/userSlice";
+import { logoutUser} from "../../../redux/slices/auth/userSlice";
 import { auth } from "../../../utils/config/firebase-config";
 import { MenuBurger } from "./MenuBurger";
 

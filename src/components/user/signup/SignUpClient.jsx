@@ -1,4 +1,4 @@
-import { FingerPrintIcon, CheckIcon,EyeIcon, EyeOffIcon, IdentificationIcon, LockClosedIcon, MailIcon,MenuAlt1Icon, OfficeBuildingIcon, SelectorIcon } from "@heroicons/react/outline";
+import { CheckIcon,EyeIcon, EyeOffIcon, IdentificationIcon, LockClosedIcon, MailIcon, SelectorIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
