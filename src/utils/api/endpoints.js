@@ -12,5 +12,5 @@ export const ENDPOINTS = {
   UPLOADIMAGE: '/upload/image',
   GETUSERBYUID: '/users/',
   GETCLIENTBYUID: '/clients/uid/',
-  GETUSERDATABYUID: 'users/uid/'
+  GETUSERDATABYUID: '/users/uid/'
 }
