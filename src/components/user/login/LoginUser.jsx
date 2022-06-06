@@ -50,10 +50,6 @@ export const LoginUser = () => {
           email: emailRef.current.value,
           password: passwordRef.current.value,
         }
-        console.log('IsLoading ', isLoading);
-        console.log('NotEmaiil ', notEmail);
-        console.log('NotPassword ',notPassword);
-        console.log('Paso 0');
 
         dispatch(loginUserAsync(client))
 
@@ -75,28 +71,20 @@ export const LoginUser = () => {
   }
 
   const handleChange = () => {
-    console.log('handle change')
     dispatch(setIsLoading(false));
     setNotEmail(false);
     setNotPassword(false);
-    console.log('IsLoading ', isLoading);
-    console.log('NotEmaiil ', notEmail);
-    console.log('NotPassword ',notPassword);
     cleanError();
   }
 
   useEffect(() => {
-    console.log('useffect');
-    console.log('selectIsLoading', isLoading);
     if (user && !isLoading) {
-      console.log('user is logged in--- inside useeffect')
       if (user.user_id.role === 2) {
         navigate('/client/dashboard');
       } else if (user.user_id.role === 3){
         navigate('/psychologist/dashboard');
       }
     } else {
-      console.log('user is NOT logged in')
     }
     // eslint-disable-next-line
   }, [user && isLoading]);

@@ -12,11 +12,9 @@ export const createPreference = async (orderData) => {
       },
     });
     const data = await response.json();
-    console.log('data...');
-    console.log(data);
     return data;
   } catch (error) {
-    console.log(error);
+    // TODO CATCH ERROR
   }
 }
 
@@ -30,10 +28,9 @@ export const savePaymentResponse = async (paymentResponse) => {
       },
     });
     const data = await response.json();
-    console.log('savePaymentResponse executed!!!');
     return data.status;
   } catch (error) {
-    console.log(error);
+    // TODO CATCH ERROR
   }
 }
 

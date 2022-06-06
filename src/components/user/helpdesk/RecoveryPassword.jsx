@@ -44,10 +44,6 @@ export const RecoveryPassword = () => {
     e.preventDefault();
     if (emailRef.current.value !== "") {
       const email = emailRef.current.value;
-      console.log('IsLoading ', isLoading);
-      console.log('NotEmaiil ', notEmail);
-      console.log('Paso 0');
-
       dispatch(recoveryPasswordAsync(email));
       setShowResult(true);
     } else {
@@ -64,11 +60,8 @@ export const RecoveryPassword = () => {
   }
 
   const handleChange = () => {
-    console.log('handle change')
     dispatch(setIsLoading(false));
     setNotEmail(false);
-    console.log('IsLoading ', isLoading);
-    console.log('NotEmaiil ', notEmail);
     cleanError();
   }
 

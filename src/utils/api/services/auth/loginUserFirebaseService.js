@@ -5,15 +5,10 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 import { loginUserApiService } from './loginUserApiService';
 
 export const loginUserFirebaseService = async (user) => {
-  console.log('Paso 3');
-  console.log('start loginUserFirebaseService');
   const {email, password} = user;
-  console.log('user in loginUserFirebaseService', user);
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)  
-    console.log('Paso 4');
       // Signed in
-      console.log('userCredential', userCredential);
       // ..
       return {
         data: {
@@ -28,7 +23,6 @@ export const loginUserFirebaseService = async (user) => {
       };
   } catch (error) {
     const errorCode = await error.code;
-      console.log(error);
       const errorMessage = await error.message;
       const errorData = {
         code: errorCode,

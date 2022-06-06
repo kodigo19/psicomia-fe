@@ -12,7 +12,6 @@ export const CheckoutPageRedirect = () => {
     const statusS = useSelector(selectSavedPaymentStatus) ?? false;
   
     useEffect(() => {
-      console.log('initial load');
       dispatch(savePaymentResponseAsync({
         payment_id: searchParams.get("payment_id"),
         payment_type: searchParams.get("payment_type"),
@@ -35,7 +34,6 @@ export const CheckoutPageRedirect = () => {
         dispatch(setSuccessPaymentResponse(true));
         setIsSuccess(true);
       }
-      console.log('isSuccess in Second useEffect', isSuccess);
       // eslint-disable-next-line
     }, [statusS]);
   

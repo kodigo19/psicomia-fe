@@ -5,8 +5,6 @@ export const signupUserFirebaseService = async (user) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password)
     // Signed in
-    console.log('user---- createUserWithEmailAndPassword');
-    console.log('userCredential', userCredential);
     // ..
     return {
       data: {
@@ -22,8 +20,6 @@ export const signupUserFirebaseService = async (user) => {
     };
   } catch (error) {
       const errorCode = await error.code;
-      console.log('error in siginwithemailandpassword')
-      console.log(error);
       const errorMessage = await error.message;
       const errorData = {
         code: errorCode,

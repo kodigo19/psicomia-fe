@@ -14,10 +14,6 @@ export const CheckoutPage = () => {
   const divButtonRef = useRef();
   
   useEffect(() => {
-    console.log('preference_id');
-    console.log(preference_id);
-    console.log('PUBLICKEY');
-    console.log(`${process.env.REACT_APP_MERCADO_PAGO_PUBLIC_KEY}`);
     if (mercadopago && preference_id) {
       if (divButtonRef.current.hasChildNodes()) {
         divButtonRef.current.removeChild(divButtonRef.current.firstChild);

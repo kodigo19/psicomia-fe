@@ -33,14 +33,10 @@ export const Navbar = () => {
   };
 
   const logOutUser = () => {
-    console.log('click in logOutUser');
     auth.signOut().then(() => {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
-      console.log(localStorage.getItem('token'));
       dispatch(logoutUser());
-      console.log('user after');
-      console.log(selectUser);
     });
   };
 

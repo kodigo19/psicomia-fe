@@ -18,7 +18,6 @@ export const signupClientFullService = async(client) => {
   if (!apiResponse.success) {
     return { error: apiResponse.error, success: false}
   }
-    console.log('apiResponse in signupClientApiService true', apiResponse);
     const signedupUser = await apiResponse.data;
 
     // Execute Firebase Login
@@ -27,7 +26,6 @@ export const signupClientFullService = async(client) => {
       password: client.password,
     }
     const loginUserFirebaseResponse =await loginUserFirebaseService(loginUser)
-    console.log('firebaseUser123',loginUserFirebaseResponse);
     const firebaseUser = loginUserFirebaseResponse.data;
     const data = {
       data: {
@@ -37,15 +35,10 @@ export const signupClientFullService = async(client) => {
       },
       success: true
     };
-    console.log('data---');
-    console.log(data);
-    console.log('true signupClientApiService inside signupClientFullService')
     return data;
 }
 
 export const signupPsychologistFullService = async(psychologist) => {
-    console.log('Psychologist inside signupPsychologistFullService');
-
     const apiResponse = await signupPsychologistApiService(
       {
         password: psychologist.password,
@@ -66,7 +59,6 @@ export const signupPsychologistFullService = async(psychologist) => {
     if (!apiResponse.success) {
       return { error: apiResponse.error, success: false}
     }
-      console.log('apiResponse', apiResponse);
       const signedupUser = await apiResponse.data;
   
       // Execute Firebase Login
@@ -84,8 +76,5 @@ export const signupPsychologistFullService = async(psychologist) => {
         },
         success: true
       };
-      console.log('data---');
-      console.log(data);
-      console.log('true signupPsychologistApiService inside signupPsychologistFullService')
       return data;
   }

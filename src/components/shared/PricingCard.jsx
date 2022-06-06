@@ -11,7 +11,6 @@ export const PricingCard = ({type, title,description, strPrice, productCode}) =>
   const [isLoadingPayment, setIsLoadingPayment] = useState(false);
 
   const handlePayment = async () => {
-    console.log('click on payment');
     setIsLoadingPayment(true);
     
     // Create preference variable for Mercadopago Preference
@@ -26,12 +25,10 @@ export const PricingCard = ({type, title,description, strPrice, productCode}) =>
 
     dispatch(createPreferenceAsync(preferenceData))
       .then((response) => {
-        console.log(response);
         setIsLoadingPayment(false);
         navigate('/client/checkout');
       })
       .catch((error) => {
-        console.log(error);
         setIsLoadingPayment(false);
       });
   };

@@ -5,13 +5,10 @@ const initialState = {};
 
 export const createPreferenceAsync = createAsyncThunk("createPreference", async (preference) => {
   const preferenceResponse = await createPreference(preference);
-  console.log('preferenceResponse');
-  console.log(preferenceResponse);
   return preferenceResponse;
 });
 
 export const savePaymentResponseAsync = createAsyncThunk("savePaymentResponse", async (paymentResponse) => {
-  console.log('inside savePaymentResponseAsync');
   return await savePaymentResponse(paymentResponse);
 });
 
