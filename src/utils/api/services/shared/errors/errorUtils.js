@@ -1,4 +1,7 @@
 export const handleError = (error) => {
+  if (!error.hasOwnProperty('code')) {
+    return {message: 'Ocurrió un error. Estamos trabajando para solucionarlo', code: '500'};
+  }
   console.log('error in handle', error);
   // Firebase signup Errors
   if (error.code === 'auth/email-already-in-use') {

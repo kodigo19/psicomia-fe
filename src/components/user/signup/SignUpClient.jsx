@@ -47,7 +47,7 @@ export const SignUpClient = () => {
   
   const [selected, setSelected] = useState(people[0]);
 
-  const [isShowing, setIsShowing] = useState(true);
+  const [isShowing, setIsShowing] = useState(false);
   const [notEmail, setNotEmail] = useState(false);
 
   const firstNameRef = useRef();
@@ -190,7 +190,7 @@ export const SignUpClient = () => {
           </label>
           <div className="relative mt-1 rounded-md shadow-sm">
             <input
-              type={isShowing ? 'password' : 'text'}
+              type={!isShowing ? 'password' : 'text'}
               name="password"
               id="password"
               ref={passwordRef}

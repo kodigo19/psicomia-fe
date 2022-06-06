@@ -58,7 +58,7 @@ export const SignUpPsychologist = () => {
 
   const user = useSelector(selectUser);
 
-    const [isShowing, setIsShowing] = useState(true);
+  const [isShowing, setIsShowing] = useState(false);
   const [notEmail, setNotEmail] = useState(false);
 
   const firstnameRef = useRef();
@@ -209,7 +209,7 @@ export const SignUpPsychologist = () => {
           </label>
           <div className="relative mt-1 rounded-md shadow-sm">
             <input
-              type={isShowing ? 'password' : 'text'}
+              type={!isShowing ? 'password' : 'text'}
               name="password"
               onChange={handleChange}
               ref={passwordRef}

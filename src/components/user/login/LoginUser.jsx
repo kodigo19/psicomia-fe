@@ -145,7 +145,7 @@ export const LoginUser = () => {
           </label>
           <div className="relative mt-1 rounded-md shadow-sm">
             <input
-              type={isShowing ? 'password' : 'text'}
+              type={!isShowing ? 'password' : 'text'}
               name="password"
               id="password"
               ref={passwordRef}

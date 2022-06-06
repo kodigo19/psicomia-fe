@@ -71,7 +71,6 @@ export const userSlice = createSlice({
         state.user = {...action.payload.data.user};
         localStorage.setItem('token', action.payload.data.idToken);
         localStorage.setItem('refreshToken', action.payload.data.refreshToken);
-        console.log('getToken-->', localStorage.getItem('token'));
       } else {
         state.errorData = handleError(action.payload.error);
       }
